@@ -52,10 +52,7 @@ def main():
 							cnt1 += (mill_cotx[resposta[i-k]][c])
 						cnt += max(0, cnt1-ce[c])
 					if cost+cnt < millor_cost or millor_cost == -1:
-						cur_resposta, cur_cost = cerca_exhaustiva(i+1, resposta, cost+cnt, Q, millor_resposta, millor_cost)
-						if millor_cost == -1:
-							millor_resposta = cur_resposta
-							millor_cost = cur_cost
+						millor_resposta, millor_cost = cerca_exhaustiva(i+1, resposta, cost+cnt, Q, millor_resposta, millor_cost)
 					Q[j] += 1
 					resposta[i] = -1
 
