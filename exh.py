@@ -8,27 +8,27 @@ def llegir_entrada():
 	M = read(int)  # n millores
 	K = read(int)  # n classes
 
-	Ce: list[int] = []  # maxim per finestra tipus i
+	ce: list[int] = []  # maxim per finestra tipus i
 	for i in range(M):
 		x = read(int)
-		Ce.append(x)
+		ce.append(x)
 
-	Ne: list[int] = []  # tamany finestra tipus i
+	ne: list[int] = []  # tamany finestra tipus i
 	for i in range(M):
 		x = read(int)
-		Ne.append(x)
+		ne.append(x)
 
-	Mill_Cotx: list[list[bool]] = []  # cal millorar cotxe tipus i amb millora j?
+	mill_cotx: list[list[bool]] = []  # cal millorar cotxe tipus i amb millora j?
 	Q: list[int] = []  # Quantitat tipus i
 	
 	for i in range(K):
 		t, q = read(int), read(int)
 		Q.append(q)
-		Mill_Cotx.append([])  
+		mill_cotx.append([])  
 		for j in range(M):
 			x = read(int)
-			Mill_Cotx[i].append(x == 1)
-	return C,M,K,Ce,Ne,Q,Mill_Cotx
+			mill_cotx[i].append(x == 1)
+	return C, M, K, ce, ne, Q, mill_cotx
 
 
 
@@ -36,7 +36,7 @@ def llegir_entrada():
 
 
 def main():
-	C,M,K,Ce,Ne,Q,Mill_Cotx = llegir_entrada()
+	C, M, K, ce, ne, Q, mill_cotx = llegir_entrada()
 	
 
 	def cerca_exhaustiva(i:int, resposta:list[int], cost:int, Q:list[int], millor_resposta:list[int], millor_cost:int):
@@ -55,11 +55,14 @@ def main():
 					cnt = 0
 					for c in range(M):
 						cnt1 = 0
-						for k in range(min(i+1,Ne[c])):
-							cnt1 += (Mill_Cotx[resposta[i-k]][c])
-						cnt += max(0, cnt1-Ce[c])
+						for k in range(min(i+1,ne[c])):
+							cnt1 += (mill_cotx[resposta[i-k]][c])
+						cnt += max(0, cnt1-ce[c])
 					if cost+cnt < millor_cost or millor_cost == -1:
-						millor_resposta, millor_cost = cerca_exhaustiva(i+1, resposta, cost+cnt, Q, millor_resposta, millor_cost)
+						cur_resposta, cur_cost = cerca_exhaustiva(i+1, resposta, cost+cnt, Q, millor_resposta, millor_cost)
+						if millor_cost = -1 or cur_cost < millor_cost:
+							millor_resposta = cur_resposta
+							millor_cost = cur_cost
 					Q[j] += 1
 					resposta[i] = -1
 
@@ -69,7 +72,7 @@ def main():
 	millor_resposta = [0] * C
 	millor_cost = -1
 	resposta = [-1] * C
-	millor_resposta, millor_cost = cerca_exhaustiva(0, resposta, 0,Q, millor_resposta, millor_cost)
+	millor_resposta, millor_cost = cerca_exhaustiva(0, resposta, 0, Q, millor_resposta, millor_cost)
 	return millor_resposta, millor_cost
 
 	    
