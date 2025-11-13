@@ -2,7 +2,6 @@ from yogi import read
 import time
 import sys
 
-
 def llegir_entrada():
 	C = read(int)  # n cotxes
 	M = read(int)  # n millores
@@ -30,20 +29,14 @@ def llegir_entrada():
 			mill_cotx[i].append(x == 1)
 	return C, M, K, ce, ne, Q, mill_cotx
 
-
-
-
-
-
 def main():
 	C, M, K, ce, ne, Q, mill_cotx = llegir_entrada()
 	
-
 	def cerca_exhaustiva(i:int, resposta:list[int], cost:int, Q:list[int], millor_resposta:list[int], millor_cost:int):
 		if i == C:
 			# tots cotxes colocats
 			if millor_cost == -1 or cost < millor_cost: # Encara no hem trobat cap resposta o la que hem trobat es millor
-				millor_cost =  cost
+				millor_cost = cost
 				for j in range(len(resposta)):
 					millor_resposta[j] = resposta[j]
 			return millor_resposta, millor_cost
@@ -55,12 +48,12 @@ def main():
 					cnt = 0
 					for c in range(M):
 						cnt1 = 0
-						for k in range(min(i+1,ne[c])):
+						for k in range(min(i+1, ne[c])):
 							cnt1 += (mill_cotx[resposta[i-k]][c])
 						cnt += max(0, cnt1-ce[c])
 					if cost+cnt < millor_cost or millor_cost == -1:
 						cur_resposta, cur_cost = cerca_exhaustiva(i+1, resposta, cost+cnt, Q, millor_resposta, millor_cost)
-						if millor_cost = -1 or cur_cost < millor_cost:
+						if millor_cost == -1:
 							millor_resposta = cur_resposta
 							millor_cost = cur_cost
 					Q[j] += 1
@@ -68,14 +61,11 @@ def main():
 
 		return millor_resposta, millor_cost
 
-
 	millor_resposta = [0] * C
 	millor_cost = -1
 	resposta = [-1] * C
 	millor_resposta, millor_cost = cerca_exhaustiva(0, resposta, 0, Q, millor_resposta, millor_cost)
 	return millor_resposta, millor_cost
-
-	    
 
 if __name__ == "__main__":
 	STime = time.time()
